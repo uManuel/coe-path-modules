@@ -42,12 +42,12 @@ function formatTotal(display) {
             if (
                 Math.abs(display) >= 0 &&
                 Math.abs(display) < 1
-            ) {
+                ) {
                 maxDigits--;
             }
             display = display
-                    .toPrecision(maxDigits)
-                    .replace(/0+$/,"");
+            .toPrecision(maxDigits)
+            .replace(/0+$/,"");
         }
     }
     else {
@@ -58,30 +58,91 @@ function formatTotal(display) {
 
 function calculator() {
     // ..
+    var enteringValues='';
+    var enteredValues='';
+    var operator = ''
+
+    function calculateByOperator(n1,n2,operator){
+        var result=''
+        switch (operator) {
+            case '+':
+                result= (+n1+(+n2));
+                break;
+            case '-':
+                result = (+n1-(+n2));
+                break;
+            case '*':
+                result = (+n1*(+n2));
+                break;
+            case '/':
+                result = (+n1/(+n2));
+                break;
+        }
+        return result.toString();
+    }
+
+    return function calc(input){
+
+        if(isNaN(input)){
+            if (input ==='=') {
+                if (enteredValues==='') {
+                    return formatTotal(+enteringValues);
+                }
+                enteredValues = calculateByOperator(enteredValues,enteringValues,operator);
+                enteringValues='';
+                operator='=';
+                return formatTotal(+enteredValues);
+            } else {
+                // if theres no entered values just change it.
+                if(enteredValues===''){
+                    enteredValues=enteringValues;
+                    enteringValues='';
+                    
+                }else{
+                    if (enteringValues!=='') {
+                        enteredValues = calculateByOperator(enteredValues,enteringValues,operator);
+                        enteringValues='';
+                    }
+                }
+                operator = input
+                return input;
+            }
+
+        }else{
+            
+            enteringValues = enteringValues+input;
+            // If is entering new values after = operator reset enteredValues and operator.
+            if (operator=='=') {
+                enteredValues='';
+                operator='';
+            }
+            return input
+        }
+    }
 }
+
+
 var calc = calculator();
 
+console.log(useCalc(calc,"4+3=")) // 4+3=7
+console.log(useCalc(calc,"+9="))// +9=16
+console.log(useCalc(calc,"*8="))// *5=128
+console.log(useCalc(calc,"7*2*3=")); // 7*2*3=42
+console.log(useCalc(calc,"1/0=")) // 1/0=ERR
+console.log(useCalc(calc,"+3="))// +3=ERR
+console.log(useCalc(calc,"51="))// 51
 
-useCalc(calc,"4+3="); // 4+3=7
-useCalc(calc,"+9="); // +9=16
-useCalc(calc,"*8="); // *5=128
-useCalc(calc,"7*2*3="); // 7*2*3=42
-useCalc(calc,"1/0="); // 1/0=ERR
-useCalc(calc,"+3="); // +3=ERR
-useCalc(calc,"51="); // 51
-
-// calc("4"); // 4
-// calc("+"); // +
-// calc("7"); // 7
-// calc("3"); // 3
-// calc("-"); // -
-// calc("2"); // 2
-// calc("="); // 75
-// calc("*"); // *
-// calc("4"); // 4
-// calc("="); // 300
-// calc("5"); // 5
-// calc("-"); // -
-// calc("5"); // 5
-// calc("="); // 0
-
+// console.log(calc("4")); // 4
+// console.log(calc("+")); // +
+// console.log(calc("7")); // 7
+// console.log(calc("3")); // 3
+// console.log(calc("-")); // -
+// console.log(calc("2")); // 2
+// console.log(calc("=")); // 75
+// console.log(calc("*")); // *
+// console.log(calc("4")); // 4
+// console.log(calc("="));// 300
+// console.log(calc("5")); // 5
+// console.log(calc("-")); // -
+// console.log(calc("5")); // 5
+// console.log(calc("=")); // 0
