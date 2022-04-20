@@ -94,7 +94,7 @@ function isOlder(user: User, checkAge: number) {
 
 ## Function return type and avoid
 
-We can add a type return to a function or avoid
+We can add a type return to a function or void
 
 ```JAVASCRIPT
 function add (n1:number,n2:number):number{
@@ -113,7 +113,7 @@ We can set a variable with the type of function
 
 ```JAVASCRIPT
 
-// It can be any kind of cuntion
+// It can be any kind of function
 let combineValues: Function;
 
 // It can be a function that return a number and has no parameters
