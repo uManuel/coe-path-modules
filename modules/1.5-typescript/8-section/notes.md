@@ -244,7 +244,7 @@ We are also able to return new types with :
 - Methods: We can return the `Property Descriptors`.
 - Accessors: We can also 
 
-#### Adding autobindig in a method of an object.
+#### Adding autobinding in a method of an object.
 
 We can add new functionalities before the execution of a method.
 
