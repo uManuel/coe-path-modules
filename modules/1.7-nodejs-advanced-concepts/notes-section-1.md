@@ -1,4 +1,5 @@
-# Internals of Node
+# Advanced Nodejs
+## Internals of Node
 
 Execution process of nodejs
 
@@ -13,7 +14,7 @@ Because NodeJS implemented apis, like http, fs, crypto, path and others, that al
 - **Libuv** It's used to have access to CPU, Network, and fylesistem.
 
 
-# Event loop and Process
+## Event loop and Process
 
 Process: Is an instance of an running program, can have one thread or multiple ones
 
@@ -56,7 +57,7 @@ Almost all network modules in node are delegated to OS Delegation.
 
 ![Eventloop Process](./images/eventloopprocess.png)
 
-## Hard interview question
+## Hard interview question to Understand deep NodeJS
 
 We can check in `./code/multitask.js` one of the most difficult interview tasks, but basically fs has two parts in which waits that's why it's finished in third position, http request is first because it's managed by the OS.
 
