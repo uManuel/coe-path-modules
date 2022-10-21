@@ -4,7 +4,6 @@
 
 [Next JS Course ](https://hendrixer.github.io/nextjs-course)
 
-
 ### What is nextJS
 
 It's a framework that uses react, conventions, dev building system, Routing, Api routes, Prerendering.
@@ -207,3 +206,58 @@ export default () => (
   </div> 
 )
 ```
+
+### Customizing Next-js config
+
+We can basically use a file called `next-config.js` to add some configuration or extend features, we can't modify because this is a framework.
+
+Example:
+`next-config.js`
+```JS
+module.exports = {
+  webpack: {
+    // webpack config properties
+  },
+  env: {
+    MY_ENV_VAR: process.env.SECRET
+  }
+}
+```
+
+Or we can add function, this is more powerful because we can set the vars in the different phases of development.
+```JS
+const { PHASE_PRODUCTION_SERVER } = require('next/constants')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+
+module.exports = (phase, { defaultConfig }) => {
+  if (phase === PHASE_PRODUCTION_SERVER) {
+    return {
+      ...defaultConfig,
+      webpack: {
+        plugins: [new BundleAnalyzerPlugin()]
+      }
+    }
+  }
+
+  return defaultConfig
+} 
+```
+
+### Adding Plugins
+
+We can also add plugins (e.g. .env) to add new features. To do that we have to import it in `next-config.js` file.
+
+Example
+```JS
+// next.config.js
+const withOffline = require('next-offline')
+const config = {
+  // your next config
+}
+
+module.exports = withOffline(config)
+```
+
+### Typescript
+
+We can use typescript with just installing an 
