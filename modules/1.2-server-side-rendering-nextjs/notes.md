@@ -261,3 +261,51 @@ module.exports = withOffline(config)
 ### Typescript
 
 We can use typescript with just installing an 
+
+## Api
+
+NextJs is able to create apis OOB so this is very helpful and straightforward.
+
+### Creating API routes
+
+We just have create folders as routes as what we see creating routes for the frontend
+```
+- pages
+-- api
+--- hello.js
+```
+We have to export an arrow function similar to serverless
+Example `hello.js`
+
+```JS
+export default (req, res) => {
+  res.statusCode = 200
+  res.setHeader('Content-Type', 'application/json')
+  res.end(JSON.stringify({ message: 'hello' }))
+}
+```
+
+But if we have something similar like express and add middle wares we have use a library called NC `next-connect`.
+
+The syntax now should be: 
+```JS
+// pages/api/data
+import nc from 'next-connect';
+import cors from 'cors'
+
+const handler = nc()
+  // use connect based middleware
+  .use(cors())
+  // express like routing for methods
+  .get((req, res) => {
+    res.send('Hello world')
+  })
+  .post((req, res) => {
+    res.json({ hello: 'world' })
+  })
+  .put(async (req, res) => {
+    res.end('hello')
+  })
+  
+export default handler;
+```
