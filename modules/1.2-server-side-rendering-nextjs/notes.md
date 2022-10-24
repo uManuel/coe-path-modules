@@ -309,3 +309,34 @@ const handler = nc()
   
 export default handler;
 ```
+
+### Fetching Data in the Browser
+
+If we want to fetch data in the browser we can reach it using **fetch** or **axios** as we normal do in vanilla react.
+
+#### Fetching Data Ahead of time
+
+We can fetch data ahead of time using the following functions:
+- getStaticProps
+- getStaticPaths
+- getServerSideProps
+
+GetStaticProps
+
+With this **getStaticProps** we're going to be able to send data in props at build time.
+If we use getStaticProps we have to use always getStaticPaths to send the `context`
+
+Syntax
+```JS
+const IndexPage = () => {// jsx }
+export default IndexPage
+// This function has the context that can be the params, but to manage them and send me we have to use GetStaticPaths
+export async function getStaticProps(context) {
+  return {
+    props: {}
+  }
+}
+```
+
+GetStaticPaths
+
