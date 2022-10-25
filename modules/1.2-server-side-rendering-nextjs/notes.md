@@ -321,10 +321,9 @@ We can fetch data ahead of time using the following functions:
 - getStaticPaths
 - getServerSideProps
 
-GetStaticProps
+##### GetStaticProps
 
 With this **getStaticProps** we're going to be able to send data in props at build time.
-If we use getStaticProps we have to use always getStaticPaths to send the `context`
 
 Syntax
 ```JS
@@ -338,5 +337,103 @@ export async function getStaticProps(context) {
 }
 ```
 
-GetStaticPaths
+##### GetStaticPaths
 
+We use GetStaticPaths to send the context to getStaticProps when the page is dynamic `[id].jsx`.
+
+```JS
+// /pages/blog/:slug.js
+
+const IndexPage = () => {// jsx }
+export default IndexPage
+
+export async function getStaticPaths() {
+  // get all the paths for your posts from an API
+  // or file system
+  const results = await fetch('/api/posts')
+  const posts = await results.json()
+  const paths = posts.map(post => ({params: {slug: 
+  post.slug}}))
+  /*
+  [
+    {params: {slug: 'get-started-with-node'}},
+    {params: {slug: 'top-frameworks'}}
+  ]
+  */
+  return {paths}
+}
+
+export async function getStaticProps({ params }) {
+  const res = await fetch(`/api/post/${params.slug}`)
+  const post = await res.json()
+  return {
+    props: {post}
+  }
+}
+```
+##### getServerSideProps
+
+And finally we have getServerSideProps That is called at runtime and have access to req and res.
+
+One difference between GetServerSideProps and GetStaticProps is that getServerSideProps is executed in every request, and getStaticProps just one at build time.
+
+```JS
+export async function getServerSideProps({params,req,res}) {
+  const response = await fetch(`https://somedata.com`)
+  const data = await response.json()
+
+  return { props: { data } }
+}
+```
+
+Note!!: Don't use getServerSideProps if It's only need it.
+
+**When to use what**
+
+- Do you need data at runtime but don't need SSR? Use client-side data fetching.
+
+- Do you need data at runtime but do need SSR? Use getServerSideProps
+
+- Do you have pages that rely on data that is cachable and accessible at build time? Like from a CMS? Use getStaticProps
+
+- Do you have the same as above but the pages have dynamic URL params? Use getStaticProps and getStaticPaths
+
+#### Authentication
+
+When we want to use authentication we can use it as the same way we do in the frontend, using a `customHook` to check their JWT, and for the backend we can use the same as using middle-wares.
+
+We can't use auth in getStaticProps and getStaticPaths but we can in getServerSideProps.
+
+### Render Modes
+
+We have the next the different pre rendering modes
+- Static Generation Pages built at build time into HTML. CDN cacheable. (Not dynamic, Blogs, Documentation, Data not changed by the user)
+- Server-side Rendering Pages built at run time into HTML. Cached after the initial hit.
+- Client-side Rendering Single-page app
+
+### Working with SSR
+
+There are some times when we want to skip rendering in some components on the server because:
+
+- It depends on The DOM API.
+- It depends on client-side data.
+- Something else
+
+```JS
+import dynamic from 'next/dynamic'
+
+const SponsoredAd = dynamic(
+  () => import('../components/sponsoredAd'),
+  { ssr: false }
+)
+
+const Page = () => (
+  <div>
+    <h1>This will be prerendered</h1>
+    {/* this won't*/}
+    <SponsoredAd />
+  </div>
+)
+
+export default Page
+```
