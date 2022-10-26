@@ -437,3 +437,16 @@ const Page = () => (
 
 export default Page
 ```
+## Deployment
+
+Basically our NextJS It's going to need a NodeJS environment for everything even if you only use the frontend.
+
+If you want to export pure Static Hosting services (No Need NodeJS) you can export with `next export`.
+
+**Be sure to export your URL Apis in .env config**
+
+One of the best ways to deploy It's to Vercel, They created Vercel.
+
+```
+vercel 
+```
