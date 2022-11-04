@@ -6,7 +6,7 @@ This is a course in which we're going to make it ready for production with the M
 
 ### Dynamic content & static routes
 
-To get dynamic content we're going to make http-request to our cms in `./practice/pages/index.tsx` file using `getStaticProps` to set the props. Using getStaticProps It's going to work to get static data from a CMS like the title or the content of the home.
+To get dynamic content we're going to make http-request to our headless cms in `./practice/pages/index.tsx` file using `getStaticProps` to set the props. Using getStaticProps It's going to work to get static data from a CMS like the title or the content of the home.
 
 
 ```Javascript
@@ -20,7 +20,7 @@ export function getStaticProps() {
 }
 ```
 
-## Dynamic content & dynamic routes
+### Dynamic content & dynamic routes
 
 On the other side if we use dynamic content like from blogs of a CMS using an api, or get it from the filesystem, we can use the next code:
 
@@ -59,4 +59,45 @@ export async function getStaticProps(ctx) {
 }
 ```
 
-### 
+### Previewing the data
+
+We have some interesting features that NextJS Gives us for previewing. To reach that we have to implement an api that sets a cookie
+
+Code
+```javascript
+import { NextApiResponse } from 'next'
+
+export default function handler(req, res: NextApiResponse) {
+  // sets the preview cookie
+  res.setPreviewData({})
+  // redirects to the page you want to preview
+  res.redirect(req.query.route)
+}
+```
+
+And then we can use it in getStaticProps with the context aka `ctx`
+
+```javascript
+export async function getStaticProps(ctx) {
+  const postsDirectory = path.join(process.cwd(), 'posts')
+  const filenames = fs.readdirSync(postsDirectory)
+  // check that preview boolean
+  const cmsPosts = ctx.preview ? postsFromCMS.draft : postsFromCMS.published
+  const filePosts = filenames.map((filename) => {
+    const filePath = path.join(postsDirectory, filename)
+    return fs.readFileSync(filePath, 'utf8')
+  })
+  
+  const posts = orderby(
+    [...cmsPosts, ...filePosts].map((content) => {
+      const { data } = matter(content)
+      return data
+    }),
+    ['publishedOn'],
+    ['desc'],
+  )
+
+  return { props: { posts } }
+}
+```
+
