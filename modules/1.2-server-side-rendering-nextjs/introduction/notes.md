@@ -386,7 +386,7 @@ export async function getServerSideProps({params,req,res}) {
 }
 ```
 
-Note!!: Don't use getServerSideProps if It's only need it.
+Note!!: Don't use getServerSideProps, only if It's only need it.
 
 **When to use what**
 
