@@ -249,3 +249,181 @@ export const connectToDB = async () => {
   return { db, dbClient: global.mongo.client }
 }
 ```
+
+### Adding catchall method in [[...id]].tsx
+
+So we're going to use getServerSideProps and check in this only route to catch folders `/1` and docs `/1/2`
+
+```javascript
+// at the bottom
+export async function getServerSideProps(context) {
+  const session= await getSession(context)
+  // not signed in
+  if (!session || !session.user) {
+    return { props: {} }
+  }
+
+  const props: any = { session }
+  const { db } = await connectToDB()
+  const folders = await folder.getFolders(db, session.user.id)
+  props.folders = folders
+
+  if (context.params.id) {
+    const activeFolder = folders.find((f) => f._id === context.params.id[0])
+    const activeDocs = await doc.getDocsByFolder(db, activeFolder._id)
+    props.activeFolder = activeFolder
+    props.activeDocs = activeDocs
+
+    const activeDocId = context.params.id[1]
+
+    if (activeDocId) {
+      props.activeDoc = await doc.getOneDoc(db, activeDocId)
+    }
+  }
+
+  return {
+    props,
+  }
+}
+
+/**
+ * Catch all handler. Must handle all different page
+ * states.
+ * 1. Folders - none selected /app
+ * 2. Folders => Folder selected /app/1
+ * 3. Folders => Folder selected => Document selected /app/1/2
+ *
+ * An unauth user should not be able to access this page.
+ *
+ * @param context
+ */
+```
+
+## Client side mutations
+
+Now that we want to update the folders, or add new notes we have to make http call request. In order todo that we're going create our apis. We have to install `next-connect` to create the handlers that is better with nextjs
+
+`./pages/api/doc/[id].ts`
+```ts
+import { NextApiResponse } from 'next'
+import nc from 'next-connect'
+import middleware from '../../../middleware/all'
+import { Request } from '../../../types'
+import { doc } from '../../../db'
+import onError from '../../../middleware/error'
+
+const handler = nc<Request, NextApiResponse>({
+  onError,
+})
+
+handler.use(middleware)
+
+handler.put(async (req, res) => {
+  const updated = await doc.updateOne(req.db, req.query.id as string, req.body)
+
+  res.send({ data: updated })
+})
+
+export default handler
+```
+
+for `./pages/api/doc/index.ts`
+```javascript
+import { NextApiResponse } from 'next'
+import nc from 'next-connect'
+import { doc } from '../../../db'
+import middleware from '../../../middleware/all'
+import onError from '../../../middleware/error'
+import { Request } from '../../../types'
+
+const handler = nc<Request, NextApiResponse>({
+  onError,
+})
+
+handler.use(middleware)
+handler.post(async (req, res) => {
+  const newDoc = await doc.createDoc(req.db, {
+    createdBy: req.user.id,
+    folder: req.body.folder,
+    name: req.body.name,
+  })
+  res.send({ data: newDoc })
+})
+
+export default handler
+
+```
+
+To create folders `./pages/api/folder/index.ts`
+```javascript
+import { NextApiResponse } from 'next'
+import nc from 'next-connect'
+import { folder } from '../../../db'
+import middleware from '../../../middleware/all'
+import onError from '../../../middleware/error'
+import { Request } from '../../../types'
+
+const handler = nc<Request, NextApiResponse>({
+  onError,
+})
+
+handler.use(middleware)
+handler.post(async (req, res) => {
+  const newFolder = await folder.createFolder(req.db, { createdBy: req.user.id, name: req.body.name })
+  res.send({ data: newFolder })
+})
+
+export default handler
+```
+
+### Client side
+
+And finally in the client side we have to add the handler and the correct states in components.
+
+In the following `./pages/app/[[...id]].tsx`
+
+```javascript
+const App = () => {
+    // hooks
+    // local state the inits with server side state then updated
+    // client side after mutations
+    const [allFolders, setFolders] = useState(folders || [])
+    
+    const handleNewFolder = async (name: string) => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/folder/`, {
+          method: 'POST',
+          body: JSON.stringify({ name }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+    
+        const { data } = await res.json()
+        // update local state
+        setFolders((state) => [...state, data])
+     }
+ }
+```
+
+## Deploying
+
+For the the deployment we can use vercel what we have to do are
+1. Create a new oauth app 
+2. Update our environment variables
+
+```
+// production only
+NEXTAUTH_URL=url of your prod deployment on vercel
+NEXT_PUBLIC_NEXTAUTH_URL= same as above
+
+// prevew and local only
+NEXT_PUBLIC_NEXTAUTH_URL= set this to the system env var VERCEL_URL
+NEXTAUTH_URL= same as above
+
+// all envs
+DATABASE_URL= you atlas db url
+GITHUB_SECRET= your new GH oauth app secret
+GITHUB_ID = your ne GH oauth app ID
+JWT_SECRET=anything you want
+```
+
