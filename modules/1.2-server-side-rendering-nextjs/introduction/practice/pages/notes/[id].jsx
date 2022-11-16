@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 export default ({note}) => {
-  console.log(note);
   return (
     <div sx={{variant: 'containers.page'}}>
       <h1>Note: {note.title} </h1>
@@ -14,7 +13,7 @@ export default ({note}) => {
 }
 
 export async function getServerSideProps({params, req, res}) {
-  const response = await fetch(`http://localhost:3000/api/note/${params.id}`)
+  const response = await fetch(`${process.env.API_URL}api/note/${params.id}`)
 
   // so much power!
   if (!response.ok) {
