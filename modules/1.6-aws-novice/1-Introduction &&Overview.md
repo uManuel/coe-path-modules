@@ -25,5 +25,7 @@ There are countries aka regions in which there are data centers in all the world
 
 Every region has multiple isolated and physically separate availability zones, they all have independent power, security and cooling. All of those availability zones are connected with each other with a redundant, ultra high speed and low latency network.
 
+Important!, the names of a particular region are generated randomly. so you can end with -2a, but me can end with -2c.
+
 Example
 ![Sydney Availability Zone](./images/sydney-availability-zones.png)

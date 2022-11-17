@@ -40,7 +40,7 @@ Identity and Access Management (IAM)
 
 ## IAM Users
 
-We get a Root User who is going to be you the owner of the account. You can Create Specific Policies for every group of users like Developers, Sales, Testers.
+We get a Root User who is going to be you the owner of the account. You can Create Specific Policies for every group of users like Developers, Sales, Testers, they are roles.
 
 To set them up we have to configure it with JSON like: 
 
@@ -60,10 +60,57 @@ To set them up we have to configure it with JSON like:
 ```
 ## IAM Roles
 
-Roles are similar than Users but these can be applied to services to add a layer of security for example:
+Roles are similar than Users but these can also be applied to services to add a layer of security for example:
 
 Website -> Role-> Database
 If it has the correct role then can access to the Database.
 
+## Summarizing Secrets Manager
 
+Allow us to protect our secrets enviroment to get access to databases or other services.
+So in orther to do that we can get that enviroment making an http request:
+
+```javascript
+import 'mysql.connector'
+
+const connection = mysql.connection.connect(
+    host='localhost',database='apetguru',user='root',
+    password=get_secret_value_response('SecretString')
+    );
+
+```
+- Improve security
+- Facilitate change the secret value
+
+## Demonstrating Directory service
+
+When you login into a computer (own or a company ones) they will use a **directory** which is a database of people and also check other policies providing them access to some folders or restrictions and providing some certain configurations. Also users can be added to some certain groups so they have some default configurations.
+
+Microsoft has provided a directory called ***Microsoft Active Directory**. As a consequence AWS developed **AWS Directory Service** so you don't have to run your own server directory.
+
+- Managed Microsoft Active Directory 
+- Managed Simple directory
+- AD connector
+- Distributed service with automatic failover
+- Compatible with other AWS services:
+    - Amazon chime
+    - Amazon connect
+
+## Hands labs: Introduction to AWS Identity and Access Management
+
+IAM It's global, means that It's going to be available in all regions. We can also add regional-based access to services as well
+
+Instances of services like EC2 are regional, so It's going to be available on `us-east-1` or `N. Virginia`
+
+- Each user can have different SSH keys
+- API keys
+- ARN(Access Resource Name) It's like an Id
+
+There are two types of policies
+- Managed: Managed by AWS and applied to many users or groups.
+- Inline: Inline are applied to only one user or group
+
+Important!!
+If we apply a **Deny** will always override any **Allow** policy
+All permissions are deny until you allow it.
 
