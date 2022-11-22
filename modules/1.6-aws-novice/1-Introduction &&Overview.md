@@ -1,4 +1,6 @@
-# What is the cloud?
+# Chapter 1: Introduction
+
+##  What is the cloud?
 Collection of services which creates a platform (Someone else computer)
 - Media Services
 - Databases
@@ -13,7 +15,8 @@ Aws is the leader of cloud platform with 32 %, Microsoft Azures 19% and Google w
 - First in adopt cloud service
 - Cheap, Pay as you go.
 
-# Regions and Availability zones
+# Chapter 2: Overview
+## Regions and Availability zones
 
 There are countries aka regions in which there are data centers in all the world. For Instance
 - Tokio - Japan

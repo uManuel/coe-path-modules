@@ -1,4 +1,6 @@
-# Databases
+# Chapter 6 Databases
+
+## Defining databases
 
 There are different types of them
 
@@ -16,27 +18,27 @@ Some advantages
 - You don't have to patch the sofware or give support to them.
 - Highly available meaning that they won't go offline if there is an issue in one of data centers.
 
-## Relational Databases
+### Relational Databases
 
 - **Amazon Aurora** A MySQL and PostgreSQL compatible for the cloud
 - **Amazon RDS (Relational Database Service)** Easily to setup, use and scale multiple database engines
 - **Amazon Redshift** A cloud database Warehouse
 
-## Key-Value Databases
+### Key-Value Databases
 
 Used in high traffic web apps, like e-commerce system, gaming applications
 
 - **Amazon DynamoDB** Fast and Flexible Database for any scale
 
-## In memory Databases
+### In memory Databases
 
 - **Amazon ElastiCache** Managed, in-memory data storage service for Redis and Memcached
 
-## Document Database 
+### Document Database 
 
 - **Amazon DocumentDB** MongoDB compatible fast, scalable, highly available document database.
 
-# Reviewing RDS
+## Reviewing RDS
 
 Allow us to have relational databses in the cloud
 
@@ -55,7 +57,7 @@ Reasons to use
 - Automatic backups
 - Cost effective
 
-# Discussing DynamoDB
+## Discussing DynamoDB
 
 It's NoSQL Database 
 
@@ -71,7 +73,7 @@ It's NoSQL Database
 
 It's very popular because more than 100.000 costumers are using it.
 
-# Evaluating Elastic Cache
+## Evaluating Elastic Cache
 
 Fully in memory data store that allow us to improve the performance of our applications and load time.
 

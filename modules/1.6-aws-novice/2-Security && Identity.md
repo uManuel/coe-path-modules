@@ -1,4 +1,7 @@
-# Security And Identity
+
+# Chapter 3: Security And Identity
+
+## Seeking security and identity
 
 AWS has to provide you Security of threads and Check identity of users and permissions.
 
@@ -29,7 +32,7 @@ AWS has to provide you Security of threads and Check identity of users and permi
 - AWS Directory
 - AWS Organization
 
-## Ilustrating IAM 
+## Illustrating IAM 
 
 Identity and Access Management (IAM)
 
@@ -38,7 +41,7 @@ Identity and Access Management (IAM)
 - Allow or deny via Policies
 - Free in all accounts 
 
-## IAM Users
+### IAM Users
 
 We get a Root User who is going to be you the owner of the account. You can Create Specific Policies for every group of users like Developers, Sales, Testers, they are roles.
 
@@ -58,7 +61,7 @@ To set them up we have to configure it with JSON like:
     ]
 }
 ```
-## IAM Roles
+### IAM Roles
 
 Roles are similar than Users but these can also be applied to services to add a layer of security for example:
 

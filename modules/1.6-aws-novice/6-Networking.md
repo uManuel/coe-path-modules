@@ -1,6 +1,8 @@
-# Negotiating Networking
+# Chapter 6: Networking
 
-## Networking
+## Negotiating Networking
+
+### Networking
 
 How we connect together different computers and electronic devices. WIFI is a network technology.
 We need
@@ -10,21 +12,21 @@ We need
 
 AWS provide us
 
-## Cloud network
+### Cloud network
 
 - **Amazon VPC(Virtual private Cloud)** Define and provision an isolated network for your AWS resources.
 - **AWS Transit gateway** Connect VPCs(virtual private cloud) and on-premises networks
 - **AWS PrivateLink** Provide private connectivity between VPCs and on-premises applications
 - **Amazon Route 53** Hos your own managed DNS
 
-## Scaling Network
+### Scaling Network
 - **Elastic Load Balancing** Automatically distribute network traffic across a pool of resources
 - **AWS Global Accelerator** Direct traffic trough the AWS Global Network to improve global application performance
 
-## Content Delivery
+### Content Delivery
 - **Amazon CloudFront** Securely deliver data, videos and application to customers globally with low latency and high transfer speeds.
 
-# Valuing VPC
+## Valuing VPC
 
 To setup a network we have first set up 
 
@@ -36,7 +38,7 @@ VPCs has other features too
 - **Internet gateway** Provide internet to your EC2 
 - **Network ACL(Access control Lists)** Allow which traffic is allowed to enter into your VPC 
 
-# Choosing CloudFront
+## Choosing CloudFront
 
 It's a CDN (content delivery network) that allow to serve your client with low latency because Amazon has different servers near of their users.
 
@@ -47,7 +49,7 @@ It's a CDN (content delivery network) that allow to serve your client with low l
 - **Cost-effective**
 
 
-# Revising Route S3
+## Revising Route S3
 
 Amazon Route 53
 
@@ -64,7 +66,7 @@ Features
 
 
 
-# Hands-on Lab Create and Configuring Basic VPC components in AWS
+## Hands-on Lab Create and Configuring Basic VPC components in AWS
 
 what we're going to do It's 
 

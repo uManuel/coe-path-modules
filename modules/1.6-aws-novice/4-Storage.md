@@ -1,4 +1,5 @@
-# Studying Storage
+# Chapter 5: Storage
+## Studying Storage
 
 Types of storage data in the cloud:
 
@@ -6,30 +7,30 @@ Types of storage data in the cloud:
 - **Block:**  Block of data of equal size, saved in raw storage volumes and ideal for RAID systems.
 - **Object:** Saved as objects that are added an id to everyone of them
 
-## File storage
+### File storage
 
 - **Amazon EFS:** A scalable, elastic and cloud native Network file system.
 - **Amazon FSx for Windows File Server:** A fully managed file storage for Windows Server.
 
-## Block Storage
+### Block Storage
 
 - **Amazon EBS(Elastic block storage)** easy to use, high performance block storage.
 
-## Object Storage
+### Object Storage
 
 - **Amazon S3(Simple)** Store and retrieve any amount of data from anywhere in the world
 
-## Backup
+### Backup
 
 - **AWS backup** Centrally and automate backups across AWS services
 
-## Data transfer
+### Data transfer
 
 - **AWS Storage Gateway** Provide on premises access to unlimited cloud storage
 - **AWS DataSync** Easily transfer to and fro 10x faster than normal 
 - **AWS Transfer Family** Transfer files to Amazon S3 using SFTP, FTP and FTPS
 
-# Selecting s3 and s3 Glacier
+## Selecting s3 and s3 Glacier
 
 AWS S3 is an object storage 99% of the people storage there their information, files etc.
 - It's very secure 11'9s 99.999999999% 
@@ -53,7 +54,7 @@ S3 Glacier
     - Bulk retrieval - cost effective for large amounts.
     - Expedited - urgent retrieval
 
-# Explaining Amazon Elastic File System
+## Explaining Amazon Elastic File System
 
 Provides NFS(Network file system) shared files system for the linux VM  in amazon EC2
 
@@ -68,17 +69,17 @@ Storage classes
 - Standard 
 - Infrequent Access Enable EFS lyfecycle management (access every 7,14,30,60,90 days) to save money
 
-# Solving Storage Gateway
+## Solving Storage Gateway
 
-## AWS Storage Gateway
+### AWS Storage Gateway
 
 - Gives you access to virtually unlimited cloud storage on premises.
 
-## File Gateway
+### File Gateway
 
 - Gives you SMB(Server message block) and NFS interfaces to AWS S3. This means that your AWS gateway has access to AWS3 services with interfaces with S3
 
-## Tape Gateway
+### Tape Gateway
 
 Present a virtual tape library on your local network.
 
@@ -87,7 +88,7 @@ Present a virtual tape library on your local network.
 
 Used when you want to implement storage cloud but you still use backup software.
 
-## Volume Gateway
+### Volume Gateway
 
 Presents an iSCSI block storage volume to your on-premises applications.
 Modes
@@ -95,7 +96,7 @@ Modes
 - **Cache Mode** Storage that are frequently accessed
 
 
-# HANDS-ON LAB Introducing Amazon S3 (Simple Storage Service)
+## HANDS-ON LAB Introducing Amazon S3 (Simple Storage Service)
 
 What I learned
 - Create bucket S3
