@@ -8,4 +8,6 @@ We have the folder
 
 1. `finished` -> the code that is finished we're going to check it if we have some hindrances in our process of learning.
 2. `clean-slate` -> the code that I'm going to write through the course.
+3. `clean-slate/showcase/src/patterns/` there are all the patterns that we're going to build in the course.
+
 
