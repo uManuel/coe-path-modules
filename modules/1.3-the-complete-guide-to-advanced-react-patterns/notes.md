@@ -25,5 +25,11 @@ we have 3 different components in which we're going to add styling and animation
 - Only call hooks at the top level.
 - Only call hooks from react functions.
 - Don't call hooks in loops, conditions or nested functions.
+- Every custom hook file name has to start with `use`.
 
+It's used to separate some logic that can be reused in other components like what we did in `./clean-slate/showcase/src/patterns/02.js` the custom hook `useClapAnimation` .
+
+### Important 
+
+We've learned a lot about refs and the DOM, especially about callback refs.
 
