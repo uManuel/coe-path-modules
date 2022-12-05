@@ -129,11 +129,13 @@ const RouteComponent = ({ pattern, patternNumber, isMediumOrLarger }) => {
     Demo1 = require(`./patterns/${beforeAndAfterPatternNumbers[0]}`).default
   } catch (error) {
     Demo1 = () => null
+    console.log(error);
   }
   try {
     Demo2 = require(`./patterns/${beforeAndAfterPatternNumbers[1]}`).default
   } catch (error) {
     Demo2 = () => null
+    console.log(error);
   }
 
   const goToCodeImplementatiomn = () => {

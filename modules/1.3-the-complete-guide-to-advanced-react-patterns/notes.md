@@ -33,3 +33,37 @@ It's used to separate some logic that can be reused in other components like wha
 
 We've learned a lot about refs and the DOM, especially about callback refs.
 
+
+## Compound design patterns
+
+Design compound patterns what let us is to have a more semantic code for example, instead of having:
+
+```javascript
+<Train carriage={'firstClass','secondClass'} window={"Big"}/>
+```
+we can customize it and send child components to the father using other components.
+```javascript
+<Train>
+    <Train.Carriage type='firstClass'>
+        <Train.Carriage.Window type='Big'/>
+        <Train.Carriage.Window type='Big'/>
+    <Train.Carriage/>
+    <Train.Carriage type='secondClass'>
+        <Train.Carriage.Window type='Medium'/>
+    <Train.Carriage/>
+<Train/>
+```
+
+Benefits
+- Customizable: child components can be customized setting different props.
+- Understandable: Is more readable, because you expose the child components of the parent.
+- Props Overload: If you want to pass props from train to carriages and windows using the compound pattern you're going to avoid props overload.
+
+How to implement it?
+1. We first have to expose the child elements adding it in to a context object.
+2. Use a Provider in the child elements.
+3. Use a Consumer in the child elements.
+
+This pattern its implemented in `./clean-slate/showcase/src/patterns/03.js`.
+
+
