@@ -38,7 +38,7 @@ We've learned a lot about refs and the DOM, especially about callback refs.
 Design compound patterns what let us is to have a more semantic code for example, instead of having:
 
 ```javascript
-<Train carriage={('firstClass', 'secondClass')} window={'Big'} />
+<Train carriage={{type:'firstClass',window='Big'}, {type:'secondClass',window='Medium'}} />
 ```
 
 we can customize it and send child components to the father using other components.
@@ -46,7 +46,6 @@ we can customize it and send child components to the father using other componen
 ```javascript
 <Train>
     <Train.Carriage type='firstClass'>
-        <Train.Carriage.Window type='Big'/>
         <Train.Carriage.Window type='Big'/>
     <Train.Carriage/>
     <Train.Carriage type='secondClass'>
@@ -71,8 +70,6 @@ This pattern its implemented in `./clean-slate/showcase/src/patterns/03.js`.
 
 ## Patterns for crafting reusable styles.
 
-
-
 If we want to implement style to a Component create we can approach something similar like :
 
 ### Extending style via style props
@@ -84,32 +81,32 @@ If we want to implement style to a Component create we can approach something si
     <MediumClap.Total style={{ background: '#8cacea', color: 'black' }} />
 </MediumClap>
 ```
+
 We have to set the props of `MediumClap` and use it in the principal HTML element
 
 ```javascript
-const MediumClap = ({style:userStyle={}})=>{
-    return (<MainDiv style={userStyle}>
-        </MainDiv>)
-}
+const MediumClap = ({ style: userStyle = {} }) => {
+    return <MainDiv style={userStyle}></MainDiv>;
+};
 ```
 
 ### Extending styles via className prop
 
 ```javascript
 <MediumClap onClap={handleClap} style={{ border: '#896EAF solid 2px' }}>
-    <MediumClap.Icon className = {style.icon} />
-    <MediumClap.Count className = {style.count}  />
-    <MediumClap.Total className = {style.total}  />
+    <MediumClap.Icon className={style.icon} />
+    <MediumClap.Count className={style.count} />
+    <MediumClap.Total className={style.total} />
 </MediumClap>
 ```
 
 We have to implement the in everyone of the components similar like:
 
 ```javascript
-const MediumClap = (className, styles)=>{
+const MediumClap = (className, styles) => {
     // easier to manage and concatenate different classNames.
-    const classNames = [classname,style.otherStyle].join(' ').trim();
+    const classNames = [classname, style.otherStyle].join(' ').trim();
 
-    return <div className={classNames} style={styles}></div>
-}
+    return <div className={classNames} style={styles}></div>;
+};
 ```

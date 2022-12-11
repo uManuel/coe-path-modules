@@ -17,7 +17,7 @@ AWS provide us
 - **Amazon VPC(Virtual private Cloud)** Define and provision an isolated network for your AWS resources.
 - **AWS Transit gateway** Connect VPCs(virtual private cloud) and on-premises networks
 - **AWS PrivateLink** Provide private connectivity between VPCs and on-premises applications
-- **Amazon Route 53** Hos your own managed DNS
+- **Amazon Route 53** Host your own managed DNS
 
 ### Scaling Network
 - **Elastic Load Balancing** Automatically distribute network traffic across a pool of resources
@@ -51,7 +51,7 @@ It's a CDN (content delivery network) that allow to serve your client with low l
 
 ## Revising Route S3
 
-Amazon Route 53
+Amazon Route S3
 
 To transfer acloud.guru -> 52.206.213.112(ip address) we use DNS to map it
 

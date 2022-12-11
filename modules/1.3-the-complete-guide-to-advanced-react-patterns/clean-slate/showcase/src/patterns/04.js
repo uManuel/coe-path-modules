@@ -106,7 +106,6 @@ const {Provider} = MediumClapContext;
 
 const MediumClap = ({children, onClap, style: userStyles = {},className}) => {
 
-
     const MAXIMUM_USER_CLAP = 50;
     const [clapState, setClapState] = useState(initialState);
     const {count} = clapState;
