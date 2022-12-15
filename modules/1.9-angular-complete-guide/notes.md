@@ -4,7 +4,7 @@ There are between **AngularJS** and **Angular 2** AKA **Angular**.
 Releases of Angular are released every 6 months.
 
 
-## The basics
+## Section 2: The basics
 
 In angular applications the most important parts are components that are reusable parts of code that can be used in different places in your web app.
 
@@ -85,4 +85,20 @@ Built in directive:
 - ngClass (Attribute directive): To render a class by condition, pass an object {key(name of the class):value(true or false)}
 - ngFor (Structural directive): Render a list of components
 
+## Section 3: Course project: the basics
 
+We created a app with only component, without any business logic.
+
+- Header
+- Shopping List
+    - Shopping Edit
+- Recipes
+    - Recipe detail
+    - Recipe list
+        - Recipe item
+
+## Section 4: Debug
+
+To Debug we have the developer tools of chrome.
+
+And we can check in webpack section to debug it easily our typescript code.
