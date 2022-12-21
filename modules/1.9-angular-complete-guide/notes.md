@@ -105,55 +105,59 @@ And we can check in webpack section to debug it easily our typescript code.
 
 We can set custom properties to our components to set it in a component we have to implement a decorator.
 
-- @Input('alias') by default alias name it's the name of the attribute of the class.
+-   @Input('alias') by default alias name it's the name of the attribute of the class.
 
 ### Binding to custom events
 
 There are times in which you need to bind an event to your component to pass data, todo that you have to use:
 
-- @Output('alias'): by default alias name it's the name of the attribute of the class. We have to later emit this event on a function like:
+-   @Output('alias'): by default alias name it's the name of the attribute of the class. We have to later emit this event on a function like:
 
 ```typescript
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-cockpit',
-  templateUrl: './cockpit.component.html',
-  styleUrls: ['./cockpit.component.css']
+    selector: 'app-cockpit',
+    templateUrl: './cockpit.component.html',
+    styleUrls: ['./cockpit.component.css'],
 })
 export class CockpitComponent implements OnInit {
+    @Output() serverCreated = new EventEmitter<{
+        serverName: string;
+        serverContent: string;
+    }>(); // Output Event on the component
+    @Output() bluePrintCreated = new EventEmitter<{
+        serverName: string;
+        serverContent: string;
+    }>(); // BluePrint Event on the component
 
-  @Output() serverCreated = new EventEmitter<{ serverName: string, serverContent: string }>; // Output Event on the component
-  @Output() bluePrintCreated = new EventEmitter<{ serverName: string, serverContent: string }>; // BluePrint Event on the component
-  
-  newServerName = '';
-  newServerContent = '';
+    newServerName = '';
+    newServerContent = '';
 
-  serverElements = [];
+    serverElements = [];
 
-  constructor() { }
+    constructor() {}
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {}
 
-  // Emitting the event
-  onAddServer() {
-    this.serverCreated.emit({
-      serverName: this.newServerName,
-      serverContent: this.newServerContent
-    });
-  }
-  // Emitting the event
-  onAddBlueprint() {
-    this.bluePrintCreated.emit({
-      serverName: this.newServerName,
-      serverContent: this.newServerContent
-    });
-  }
+    // Emitting the event
+    onAddServer() {
+        this.serverCreated.emit({
+            serverName: this.newServerName,
+            serverContent: this.newServerContent,
+        });
+    }
+    // Emitting the event
+    onAddBlueprint() {
+        this.bluePrintCreated.emit({
+            serverName: this.newServerName,
+            serverContent: this.newServerContent,
+        });
+    }
 }
 ```
 
-### Encapsulation 
+### Encapsulation
 
 Every component It's forced to have their own css template, emulates the shadow dom that has the feature of has every element his own style but it's not supported by all browsers.
 
@@ -163,21 +167,68 @@ We can update the encapsulation
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-server-element',
-  templateUrl: './server-element.component.html',
-  styleUrls: ['./server-element.component.css'],
-  encapsulation: ViewEncapsulation.None // can be None, ShadowDom, Emulated
+    selector: 'app-server-element',
+    templateUrl: './server-element.component.html',
+    styleUrls: ['./server-element.component.css'],
+    encapsulation: ViewEncapsulation.None, // can be None, ShadowDom, Emulated
 })
 export class ServerElementComponent implements OnInit {
-  @Input() element: { type: string, name: string, content: string };
-  
+    @Input() element: { type: string; name: string; content: string };
+
+    constructor() {}
+
+    ngOnInit(): void {}
+}
+```
+
+If we set as **none** all css applied to that component will be global, if we set **ShadowDom** will be applied encapsulation natively in browsers that support it.
+
+### Using Local References
+
+Using Local references allow us to access to the element with all their attributes.
+
+Example
+
+```html
+<input #serverNameInput type="text" class="form-control" />
+<!-- #serverContentInput It's the reference -->
+<button class="btn btn-primary" (click)="onAddServer(serverNameInput)"></button>
+```
+
+```typescript
+// Add a function with the reference input
+onAddServer(serverName: HTMLInputElement) {
+    this.serverCreated.emit({
+      serverName: serverName.value,
+      serverContent: this.serverContentInput.nativeElement.value
+    });
+  }
+
+```
+
+### ViewChild
+
+Setting a ViewChild we can access to an element with ELementRef, It's almost the same but the type of element its **ElementRef**.
+!!!NOTE It's not a good idea to access to the DOM using ViewChild
+
+```html
+<input type="text" class="form-control" #serverContentInput />
+```
+
+```typescript
+
+  @ViewChild('serverContentInput', {static: true}) serverContentInput: ElementRef; //we have to import ElementRef
+  serverElements = [];
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-}
+  onAddServer(serverName: HTMLInputElement) {
+    this.serverCreated.emit({
+      serverName: serverName.value,
+      serverContent: this.serverContentInput.nativeElement.value //Using ElementRef
+    });
+  }
 ```
-If we set as **none** all css applied to that component will be global, if we set **ShadowDom** will be applied encapsulation natively in browsers that support it.
-
-
