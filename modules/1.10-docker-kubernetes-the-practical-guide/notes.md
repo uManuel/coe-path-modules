@@ -38,3 +38,37 @@ Note!! When we install Docker in Mac and Windows It's not native, so have to ins
 Extra
 - Docker compose, plugin to create more complex configuration
 - Docker HUB, contains images to share and pull from
+
+# Section 2: Images & Containers
+
+A **container** It's the running unit of software.
+An **image** It's a blueprint/template of software. Also containing Code and required tools and runtimes.
+
+With an image we can run multiple containers in different servers and applications.
+
+We can create our own image using other images like node, php, or others.
+
+
+
+
+## Command Sheet
+
+show all running containers
+```bash
+docker ps
+```
+
+Show all containers
+```bash
+docker ps -a 
+```
+
+Create a new container using an image, if doesn't find one will download from docker hub.
+```bash
+docker run node
+```
+
+Show images 
+```bash
+docker image ls
+```
