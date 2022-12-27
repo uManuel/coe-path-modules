@@ -135,8 +135,104 @@ Login in docker with `docker login`
 
 push the image with `docker push imageName:tag`
 
-## 
+# Section 3: Managing Data & Working with Volumes
 
+- Images: Only read data
+- Containers: Read & Write data, only we loss data if we remove a container.
+- Containers & Volumes: Read & Write permanent stored is not going to be removed even if a container is removed.
+
+## Volumes
+
+Are folders in you machine that are mounted into your container, so can be read/write by your container. This means that this data is always available.
+
+**Named vs Anonymous volume**
+- In both cases if the container stops also the volume will do.
+- Anonymous volumes are destroyed if a container It's destroyed, but Named volumes are't destroyed.
+- Both of them can't be accessed or be edited by you.
+
+**Bind mounts**
+- You define a path on your host machine.
+- The data It's editable and persistent.
+
+Named volumes can't be accessed.
+
+### To set up Bind Mounts
+
+You have to run the command `run -v "$(pwd):/app"` similar to `run -v "<Host path>:<container path>"` this will mount your path host machine with the application with docker.
+
+### To set up a Anonymous  Volume
+
+- Can be also used to lock some folders to be replaced with bind mounts.
+- Also can be used to improve some performance.
+
+We can run `run -v /app/feedback` similar that `run -v <container path>`
+
+```dockerfile
+FROM node:latest
+
+WORKDIR /app
+
+COPY . /app
+
+# Anonimous volume so will be destroyed after the container It's stopped.
+VOLUME [ "/app/feedback" ]
+
+RUN npm install
+
+CMD [ "node", "server.js" ]
+
+```
+
+### To set up an named Volume
+
+We have to create a container using the command `docker run -v <NameVolume>:<(URL)/app/feedback> nameImage:tag`. Using that we create and attach a volume into the container.
+
+### Combining different volumes 
+
+We can also use different volumes in one container, for instance `docker run -p 3000:80 -d -v feedback:/app/feedback -v "$(pwd):/app" -v /app/node_modules --name feedback-node feedback-node`
+
+![volumes-differences](https://user-images.githubusercontent.com/26603591/209723005-82cef3ae-e96b-42a7-93bb-6cdbaffaf342.png)
+
+### Read only Volumes
+
+we can set up by adding ':ro' at the end of the command when we create a volume bind mount `docker run -p 3000:80 -d -v feedback:/app/feedback -v "$(pwd):/app:ro" --name feedback-node feedback-node`
+
+### Using dockerignore
+
+We can use `.dockerignore` file similar than `.gitignore` that allow us to ignore to copy some files into our container or volumes.
+
+### Using Environments
+
+We can set environments adding in the `Dockerfile` the following
+```DOCKERFILE
+ENV PORT 80
+
+EXPOSE $PORT
+```
+Other way It's using the run command like `docker run -p 3000:8000 --env PORT=8000`
+
+Other way It's to set in a `.env` file and run `docker run -p 3000:8000 --env-file ./.env`
+
+### Using Build Args
+
+We can set arguments in building time, so allow us to modify the `dockerfile` without updating the file.
+
+```DOCKERFILE
+FROM node:latest
+
+WORKDIR /app
+
+COPY . /app
+
+RUN npm install
+
+ARG DEFAULT_PORT=80
+
+EXPOSE PORT $DEFAULT_PORT
+
+CMD [ "node", "server.js" ]
+```
+This will alow us to run `docker build -t feedback-node --build-arg DEFAULT_PORT=8000 .`
 # Command Sheet
 
 show all running containers
@@ -201,6 +297,15 @@ To update the image, because using docker run don't update the image
 
 ```bash
 docker pull nameImage:tag 
+```
+
+Create a named volume
+
+`docker run -v <NameVolume>:<(URL)/app/feedback> nameImage:tag`
+
+Create a Volume manually
+```bash
+docker volume create NameVolume
 ```
 
 ```bash
