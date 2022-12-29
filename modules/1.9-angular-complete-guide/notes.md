@@ -109,14 +109,31 @@ We can set custom properties to our components to set it in a component we have 
 
 ```typescript
 export class ServerElementComponent implements OnInit {
-  @Input() element: { type: string, name: string, content: string };
-  
-  constructor() { }
+    @Input() element: { type: string; name: string; content: string };
 
-  ngOnInit(): void {
-  }
+    constructor() {}
 
+    ngOnInit(): void {}
 }
+```
+
+and implementing in the HTML parent component `app.component.html`
+
+```html
+<app-server-element
+    *ngFor="let serverElement of serverElements"
+    [element]="serverElement" 
+    [name]="serverElement.name"
+>
+    <p #contentParagraph>
+        <strong *ngIf="serverElement.type === 'server'" style="color: red">
+            {{serverElement.content}}
+        </strong>
+        <em *ngIf="serverElement.type === 'blueprint'"
+            >{{ serverElement.content }}</em
+        >
+    </p>
+</app-server-element>
 ```
 
 ### Binding to custom events
@@ -167,6 +184,12 @@ export class CockpitComponent implements OnInit {
         });
     }
 }
+```
+
+And implementing in the parent html component
+
+```html
+<app-cockpit (serverCreated)="addServerHandler($event)" (bluePrintCreated)="addBluePrintHandler($event)" ></app-cockpit>
 ```
 
 ### Encapsulation
@@ -251,15 +274,14 @@ By default any html you pass trough a component It's lost like `<myComponent><lo
 
 ### Lifecycle
 
-- ngOnChanges: Called after a bound input property changes.
-- ngOnInit: Called once the component It's initialized.
-- ngDoCheck: Called during every change detection rule.
-- ngAfterContentInit: Called after content ng-content has been projected into view.
-- ngAfterContentChecked: Called every time the project content has been checked.
-- ngAfterViewInit: Called after the component's view (and child views) has been initialized.
-- ngAfterViewChecked: Called every time the view (and child views) have been checked.
-- ngOnDestroy: Called once the component it's about to be destroyed.
-
+-   ngOnChanges: Called after a bound input property changes.
+-   ngOnInit: Called once the component It's initialized.
+-   ngDoCheck: Called during every change detection rule.
+-   ngAfterContentInit: Called after content ng-content has been projected into view.
+-   ngAfterContentChecked: Called every time the project content has been checked.
+-   ngAfterViewInit: Called after the component's view (and child views) has been initialized.
+-   ngAfterViewChecked: Called every time the view (and child views) have been checked.
+-   ngOnDestroy: Called once the component it's about to be destroyed.
 
 ### Getting access to ng-content with @ContentChild
 
