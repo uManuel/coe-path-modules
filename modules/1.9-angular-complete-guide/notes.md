@@ -1,6 +1,6 @@
 # Angular Course
 
-There are between **AngularJS** and **Angular 2** AKA **Angular**.
+There are differences between **AngularJS** and **Angular 2** AKA **Angular**.
 Releases of Angular are released every 6 months.
 
 ## Section 2: The basics
@@ -15,14 +15,14 @@ npm install -g @angular/cli
 
 And then create a new workspace `ng new my-app`.
 
-We can create `ng generate component server`;
+We can create components using the cli `ng generate component server`;
 
 A component It's compound of the following files
 
--   name.component.html (required)
+-   name.component.html (required but if you want)
 -   name.component.css (not required)
 -   name.component.ts (required)
--   name.component.spec.ts (not required)
+-   name.component.spec.ts (not required, testing)
 -   name.module.ts (not required)
 
 ### Selectors
@@ -103,9 +103,21 @@ And we can check in webpack section to debug it easily our typescript code.
 
 ### Binding to custom properties
 
-We can set custom properties to our components to set it in a component we have to implement a decorator.
+We can set custom properties to our components to set it in a component we have to implement a decorator. This will be accessible by outers components.
 
 -   @Input('alias') by default alias name it's the name of the attribute of the class.
+
+```typescript
+export class ServerElementComponent implements OnInit {
+  @Input() element: { type: string, name: string, content: string };
+  
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+```
 
 ### Binding to custom events
 
@@ -232,3 +244,23 @@ Setting a ViewChild we can access to an element with ELementRef, It's almost the
     });
   }
 ```
+
+### Passing HTML data in a component
+
+By default any html you pass trough a component It's lost like `<myComponent><lostElement></lostElement></myComponent>`, to make it available you have to use this hook `<ng-content></ng-content>` inside of that html component.
+
+### Lifecycle
+
+- ngOnChanges: Called after a bound input property changes.
+- ngOnInit: Called once the component It's initialized.
+- ngDoCheck: Called during every change detection rule.
+- ngAfterContentInit: Called after content ng-content has been projected into view.
+- ngAfterContentChecked: Called every time the project content has been checked.
+- ngAfterViewInit: Called after the component's view (and child views) has been initialized.
+- ngAfterViewChecked: Called every time the view (and child views) have been checked.
+- ngOnDestroy: Called once the component it's about to be destroyed.
+
+
+### Getting access to ng-content with @ContentChild
+
+To get access to a reference that it's in ng-content we have to use the @ContentChild that it's similar with @Child.

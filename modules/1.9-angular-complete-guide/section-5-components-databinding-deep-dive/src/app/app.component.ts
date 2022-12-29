@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+// App Main Component
 export class AppComponent {
   serverElements = [{ type: 'server', name: 'TestServer', content: 'Just a test!' }];
 
@@ -22,5 +23,11 @@ export class AppComponent {
       name: bluePrint.serverName,
       content: bluePrint.serverContent
     });
+  }
+  onChangeFirst(){
+    this.serverElements[0].name = 'Changed';
+  }
+  onDestroyFirst(){
+    this.serverElements.splice(0,1);
   }
 }
