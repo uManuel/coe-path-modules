@@ -286,3 +286,13 @@ By default any html you pass trough a component It's lost like `<myComponent><lo
 ### Getting access to ng-content with @ContentChild
 
 To get access to a reference that it's in ng-content we have to use the @ContentChild that it's similar with @Child.
+
+
+## Section 7: Directives Deep dive
+
+Attribute Directive vs Structural Directive.
+- **Attribute directive** are similar to html attribute (property binding and event binding).
+- **Attribute directive** Only affect to the element that it's added
+- **Structural directives**looks similar to html but leading with *
+- **Structural directives** Affects a whole area of the DOM, remove or add (*ngIf)
+- **Structural directives** We only can have 1 structural directive in an element.
