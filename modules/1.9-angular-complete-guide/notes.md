@@ -103,7 +103,7 @@ And we can check in webpack section to debug it easily our typescript code.
 
 ### Binding to custom properties
 
-We can set custom properties to our components to set it in a component we have to implement a decorator. This will be accessible by outers components.
+We can set custom properties to our components to pass data to into our component from the parent. In a component we have to implement a decorator that will be accessible by parents components.
 
 -   @Input('alias') by default alias name it's the name of the attribute of the class.
 
@@ -138,7 +138,7 @@ and implementing in the HTML parent component `app.component.html`
 
 ### Binding to custom events
 
-There are times in which you need to bind an event to your component to pass data, todo that you have to use:
+There are times in which you need to bind an event to your component to pass data up to your parent component, todo that you have to use:
 
 -   @Output('alias'): by default alias name it's the name of the attribute of the class. We have to later emit this event on a function like:
 
