@@ -122,7 +122,7 @@ and implementing in the HTML parent component `app.component.html`
 ```html
 <app-server-element
     *ngFor="let serverElement of serverElements"
-    [element]="serverElement" 
+    [element]="serverElement"
     [name]="serverElement.name"
 >
     <p #contentParagraph>
@@ -189,7 +189,10 @@ export class CockpitComponent implements OnInit {
 And implementing in the parent html component
 
 ```html
-<app-cockpit (serverCreated)="addServerHandler($event)" (bluePrintCreated)="addBluePrintHandler($event)" ></app-cockpit>
+<app-cockpit
+    (serverCreated)="addServerHandler($event)"
+    (bluePrintCreated)="addBluePrintHandler($event)"
+></app-cockpit>
 ```
 
 ### Encapsulation
@@ -287,12 +290,184 @@ By default any html you pass trough a component It's lost like `<myComponent><lo
 
 To get access to a reference that it's in ng-content we have to use the @ContentChild that it's similar with @Child.
 
-
 ## Section 7: Directives Deep dive
 
 Attribute Directive vs Structural Directive.
-- **Attribute directive** are similar to html attribute (property binding and event binding).
-- **Attribute directive** Only affect to the element that it's added
-- **Structural directives**looks similar to html but leading with *
-- **Structural directives** Affects a whole area of the DOM, remove or add (*ngIf)
-- **Structural directives** We only can have 1 structural directive in an element.
+
+-   **Attribute directive** are similar to html attribute (property binding and event binding).
+-   **Attribute directive** Only affect to the element that it's added
+-   **Structural directives**looks similar to html but leading with \*
+-   **Structural directives** Affects a whole area of the DOM, remove or add (\*ngIf)
+-   **Structural directives** We only can have 1 structural directive in an element.
+
+### Create a directive
+
+Create a directive to update the color of the background.
+
+```typescript
+import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
+
+@Directive({
+    selector: '[appBetterHighlight]',
+})
+export class BetterHighlightDirective implements OnInit {
+    constructor(private elRef: ElementRef, private renderer: Renderer2) {}
+    ngOnInit(): void {
+        this.renderer.setStyle(
+            this.elRef.nativeElement,
+            'background-color',
+            'blue'
+        );
+    }
+}
+```
+
+Then import it and use it.
+
+```html
+<p appBetterHighlight>Style me with better directive</p>
+```
+
+NOTE!! To access to the DOM and change it It's a good practice to use renderer2
+
+### Host Listeners
+
+To listen events in directives and execute some change we can use host listeners.
+
+```typescript
+import {
+    Directive,
+    ElementRef,
+    HostListener,
+    OnInit,
+    Renderer2,
+} from '@angular/core';
+
+@Directive({
+    selector: '[appBetterHighlight]',
+})
+export class BetterHighlightDirective implements OnInit {
+    constructor(private elRef: ElementRef, private renderer: Renderer2) {}
+    ngOnInit(): void {
+        // this.renderer.setStyle(this.elRef.nativeElement,"background-color","blue");
+    }
+
+    @HostListener('mouseenter') mouseover(eventData: Event) {
+        this.renderer.setStyle(
+            this.elRef.nativeElement,
+            'background-color',
+            'blue'
+        );
+    }
+
+    @HostListener('mouseleave') mouseleave(eventData: Event) {
+        this.renderer.setStyle(
+            this.elRef.nativeElement,
+            'background-color',
+            'transparent'
+        );
+    }
+}
+```
+
+### HostBinding to bind host properties
+
+We can bind a property in our directive using @HostBinding decorator.
+
+```typescript
+import {
+    Directive,
+    ElementRef,
+    HostBinding,
+    HostListener,
+    Input,
+    OnInit,
+    Renderer2,
+} from '@angular/core';
+
+@Directive({
+    selector: '[appBetterHighlight]',
+})
+export class BetterHighlightDirective implements OnInit {
+    @Input() defaultColor: string = 'transparent';
+    //setting a property binding and using the property name the same as the directive.
+    @Input('appBetterHighlight') highlightColor: string = 'blue';
+    @HostBinding('style.backgroundColor') backgroundColor: string;
+
+    constructor(private elRef: ElementRef, private renderer: Renderer2) {}
+
+    ngOnInit(): void {
+        this.backgroundColor = this.defaultColor;
+        // this.renderer.setStyle(this.elRef.nativeElement,"background-color","blue");
+    }
+
+    @HostListener('mouseenter') mouseover(eventData: Event) {
+        // this.renderer.setStyle(this.elRef.nativeElement,"background-color","blue");
+        this.backgroundColor = this.highlightColor;
+    }
+
+    @HostListener('mouseleave') mouseleave(eventData: Event) {
+        // this.renderer.setStyle(this.elRef.nativeElement,"background-color","transparent");
+        this.backgroundColor = this.defaultColor;
+    }
+}
+```
+
+### Structural directives using \* leading
+
+Sometimes we see \* in structural directives but they are not necessary, we can implement it like
+
+```html
+<div *ngIf="!onlyOdd">
+    <li
+        class="list-group-item"
+        *ngFor="let even of evenNumbers"
+        [ngClass]="{odd:even%2!=0}"
+        [ngStyle]="{backgroundColor:even%2!=0?'yellow':'transparent'}"
+    >
+        {{ even }}
+    </li>
+</div>
+```
+
+Is similar than this
+
+```html
+<ng-template [ngIf]="!onlyOdd">
+    <div>
+        <li
+            class="list-group-item"
+            *ngFor="let even of evenNumbers"
+            [ngClass]="{odd:even%2!=0}"
+            [ngStyle]="{backgroundColor:even%2!=0?'yellow':'transparent'}"
+        >
+            {{ even }}
+        </li>
+    </div>
+</ng-template>
+```
+
+We can create our own structural directive like: `unless.directive.ts`
+
+```typescript
+import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+
+@Directive({
+  selector: '[appUnless]'
+})
+
+export class UnlessDirective {
+    // binds the property with appUnless as the selector.
+  @Input() set appUnless(condition: boolean) {
+    if (!condition) {
+      this.vcRef.createEmbeddedView(this.templateRef);
+    } else {
+      this.vcRef.clear();
+    }
+  }
+  // we net to set the ng-template and the view container
+  constructor(private templateRef: TemplateRef<any>, private vcRef: ViewContainerRef) { }
+}
+
+
+```
