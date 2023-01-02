@@ -476,7 +476,7 @@ In this project we implemented directive to show a dropdown when click the butto
 
 ## Section 9: Using services & dependency injection
 
-Services allow us to avoid rewrite functionalities in different components, creating different classes services for that purpose.
+**Services** allow us to avoid rewrite functionalities in different components, creating different classes services for that purpose.
 
 **Dependency injector** allow us to inject to our components other services to be used by itself automatically.
 
@@ -499,6 +499,8 @@ import { LoggingService } from '../logging.service';
   selector: 'app-new-account',
   templateUrl: './new-account.component.html',
   styleUrls: ['./new-account.component.css'],
+  // Very important if you want to have a single instance of logging Service for every component you need to provide it.
+  // Other case you'll have a single instance in your components
   providers:[LoggingService]
 })
 export class NewAccountComponent {
@@ -516,3 +518,6 @@ export class NewAccountComponent {
 }
 
 ```
+
+To **Implement a service in other services** we need to add as provider in the `app.module.ts` file and then use it in the service using `@injectable()` decorator in both services.
+
