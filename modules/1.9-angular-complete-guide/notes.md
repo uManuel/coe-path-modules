@@ -465,9 +465,54 @@ export class UnlessDirective {
       this.vcRef.clear();
     }
   }
-  // we net to set the ng-template and the view container
+  // we net to set the ng-template and the view container 
   constructor(private templateRef: TemplateRef<any>, private vcRef: ViewContainerRef) { }
 }
+```
+## Section 8: Course project directives
 
+In this project we implemented directive to show a dropdown when click the button, to do that we added a dropdown directive using a hostBinding and host listener
+
+
+## Section 9: Using services & dependency injection
+
+Services allow us to avoid rewrite functionalities in different components, creating different classes services for that purpose.
+
+**Dependency injector** allow us to inject to our components other services to be used by itself automatically.
+
+Todo that we need to create a service
+
+```typescript
+export class LoggingService{
+    logStatusChange(status: string){
+        console.log('A server status changed, new status: ' + status);
+    }
+}
+```
+
+and use dependency injector.
+```typescript
+import { Component, EventEmitter, Output } from '@angular/core';
+import { LoggingService } from '../logging.service';
+
+@Component({
+  selector: 'app-new-account',
+  templateUrl: './new-account.component.html',
+  styleUrls: ['./new-account.component.css'],
+  providers:[LoggingService]
+})
+export class NewAccountComponent {
+  @Output() accountAdded = new EventEmitter<{name: string, status: string}>();
+
+  constructor(private loggingService: LoggingService){}
+
+  onCreateAccount(accountName: string, accountStatus: string) {
+    this.accountAdded.emit({
+      name: accountName,
+      status: accountStatus
+    });
+    this.loggingService.logStatusChange(accountStatus);
+  }
+}
 
 ```
