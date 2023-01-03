@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RecipeService } from './recipes/recipe.service';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   loadedFeature = 'recipe';
+
+  constructor(private recipeService: RecipeService){
+  }
 
   onNavigate(feature: string) {
     this.loadedFeature = feature;
