@@ -523,3 +523,13 @@ To **Implement a service in other services** we need to add as provider in the `
 
 
 We can also **Cross - component communication** to pass data easily between components as we have in `account.service.ts`  statusUpdated EventEmitter to emit the status  when we set an status of `account.component.ts` to `new-account.component.ts` to send an alert.
+
+
+## Pipes
+
+Changes the output of the data like:
+```html
+userName='Max';
+<p>{userName|uppercase}</p>
+``` 
+The output should be `MAX`.
