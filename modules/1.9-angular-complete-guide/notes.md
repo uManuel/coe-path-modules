@@ -528,7 +528,13 @@ To **Implement a service in other services** we need to add as provider in the `
 
 We can also **Cross - component communication** to pass data easily between components as we have in `account.service.ts` statusUpdated EventEmitter to emit the status when we set an status of `account.component.ts` to `new-account.component.ts` to send an alert.
 
-## Pipes
+## Section 13: Understanding observables
+
+An observable it's a type of data source like UserInput, Http Request, Triggered in code.
+
+An observer it's subscribed to an observable and handle the errors, data or completions.
+
+## Section 17: Pipes
 
 Changes the output of the data like:
 
@@ -563,3 +569,4 @@ import it in `app.module.ts` file
 We can also use it as filtering as in our example.
 
 Also we can use the built in async pipe to output async data in the template.
+
