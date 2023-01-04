@@ -530,9 +530,28 @@ We can also **Cross - component communication** to pass data easily between comp
 
 ## Section 13: Understanding observables
 
-An observable it's a type of data source like UserInput, Http Request, Triggered in code.
+An observable it's a stream of data that can be subscribed by an observer.
 
 An observer it's subscribed to an observable and handle the errors, data or completions.
+
+Example built in rxjs interval.
+
+```typescript
+firstObsSubscription: Subscription;
+ngOnInit(){
+    this.firstObsSubscription = interval(1000).subscribe((count) => {
+        console.log(count);
+    });
+}
+ngOnDestroy(): void {
+    this.firstObsSubscription.unsubscribe();// to unsubscribe
+  }
+```
+We can also **build customized observables**  like in `home.component.ts`
+
+We can also **funnel Operators** to observables that has rxjs like in `home.component.ts`
+
+**Subjects** are similar than `@EventEmitter` and you have use it in services or when you want to transfer data cross components, it's a good practice because are optimized and you can use operators like an observable, but if you use `@output()` you have to use `EventEmitters`
 
 ## Section 17: Pipes
 
@@ -551,22 +570,21 @@ To create a pipe:
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'shorten'
+    name: 'shorten',
 })
-
 export class ShortenPipe implements PipeTransform {
-    transform(value: any, limit:number): any {
-        if (value.length>10) {
-            return value.substr(0,limit)+' ...';
-        }else{
+    transform(value: any, limit: number): any {
+        if (value.length > 10) {
+            return value.substr(0, limit) + ' ...';
+        } else {
             return value;
         }
     }
 }
 ```
+
 import it in `app.module.ts` file
 
 We can also use it as filtering as in our example.
 
 Also we can use the built in async pipe to output async data in the template.
-
