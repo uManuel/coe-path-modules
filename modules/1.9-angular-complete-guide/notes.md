@@ -453,26 +453,28 @@ We can create our own structural directive like: `unless.directive.ts`
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
 @Directive({
-  selector: '[appUnless]'
+    selector: '[appUnless]',
 })
-
 export class UnlessDirective {
     // binds the property with appUnless as the selector.
-  @Input() set appUnless(condition: boolean) {
-    if (!condition) {
-      this.vcRef.createEmbeddedView(this.templateRef);
-    } else {
-      this.vcRef.clear();
+    @Input() set appUnless(condition: boolean) {
+        if (!condition) {
+            this.vcRef.createEmbeddedView(this.templateRef);
+        } else {
+            this.vcRef.clear();
+        }
     }
-  }
-  // we net to set the ng-template and the view container 
-  constructor(private templateRef: TemplateRef<any>, private vcRef: ViewContainerRef) { }
+    // we net to set the ng-template and the view container
+    constructor(
+        private templateRef: TemplateRef<any>,
+        private vcRef: ViewContainerRef
+    ) {}
 }
 ```
+
 ## Section 8: Course project directives
 
 In this project we implemented directive to show a dropdown when click the button, to do that we added a dropdown directive using a hostBinding and host listener
-
 
 ## Section 9: Using services & dependency injection
 
@@ -483,53 +485,81 @@ In this project we implemented directive to show a dropdown when click the butto
 Todo that we need to create a service
 
 ```typescript
-export class LoggingService{
-    logStatusChange(status: string){
+export class LoggingService {
+    logStatusChange(status: string) {
         console.log('A server status changed, new status: ' + status);
     }
 }
 ```
 
 and use dependency injector.
+
 ```typescript
 import { Component, EventEmitter, Output } from '@angular/core';
 import { LoggingService } from '../logging.service';
 
 @Component({
-  selector: 'app-new-account',
-  templateUrl: './new-account.component.html',
-  styleUrls: ['./new-account.component.css'],
-  // Very important if you want to have a single instance of logging Service for every component you need to provide it.
-  // Other case you'll have a single instance in your components
-  providers:[LoggingService]
+    selector: 'app-new-account',
+    templateUrl: './new-account.component.html',
+    styleUrls: ['./new-account.component.css'],
+    // Very important if you want to have a single instance of logging Service for every component you need to provide it.
+    // Other case you'll have a single instance in your components
+    providers: [LoggingService],
 })
 export class NewAccountComponent {
-  @Output() accountAdded = new EventEmitter<{name: string, status: string}>();
+    @Output() accountAdded = new EventEmitter<{
+        name: string;
+        status: string;
+    }>();
 
-  constructor(private loggingService: LoggingService){}
+    constructor(private loggingService: LoggingService) {}
 
-  onCreateAccount(accountName: string, accountStatus: string) {
-    this.accountAdded.emit({
-      name: accountName,
-      status: accountStatus
-    });
-    this.loggingService.logStatusChange(accountStatus);
-  }
+    onCreateAccount(accountName: string, accountStatus: string) {
+        this.accountAdded.emit({
+            name: accountName,
+            status: accountStatus,
+        });
+        this.loggingService.logStatusChange(accountStatus);
+    }
 }
-
 ```
 
 To **Implement a service in other services** we need to add as provider in the `app.module.ts` file and then use it in the service using `@injectable()` decorator in both services.
 
-
-We can also **Cross - component communication** to pass data easily between components as we have in `account.service.ts`  statusUpdated EventEmitter to emit the status  when we set an status of `account.component.ts` to `new-account.component.ts` to send an alert.
-
+We can also **Cross - component communication** to pass data easily between components as we have in `account.service.ts` statusUpdated EventEmitter to emit the status when we set an status of `account.component.ts` to `new-account.component.ts` to send an alert.
 
 ## Pipes
 
 Changes the output of the data like:
+
 ```html
-userName='Max';
-<p>{userName|uppercase}</p>
-``` 
-The output should be `MAX`.
+myDate = new Date(15, 1, 2017);
+<p>{myDate| date: 'short'|uppercase}</p>
+```
+
+The output should be transformed from `Mon Aug 09 1920 00:00:00 GMT-0400 (Argentina Standard Time)` to `8/9/20, 12:00 AM`.
+
+To create a pipe:
+
+```typescript
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'shorten'
+})
+
+export class ShortenPipe implements PipeTransform {
+    transform(value: any, limit:number): any {
+        if (value.length>10) {
+            return value.substr(0,limit)+' ...';
+        }else{
+            return value;
+        }
+    }
+}
+```
+import it in `app.module.ts` file
+
+We can also use it as filtering as in our example.
+
+Also we can use the built in async pipe to output async data in the template.
