@@ -588,3 +588,7 @@ import it in `app.module.ts` file
 We can also use it as filtering as in our example.
 
 Also we can use the built in async pipe to output async data in the template.
+
+## Section 18: Making http requests
+
+To make http request we have to implement in typescript `httpClient from '@angular/common/http'`. Examples in the section, tu run correctly you need the version of node **14**.
