@@ -530,7 +530,7 @@ We can also **Cross - component communication** to pass data easily between comp
 
 ## Section 13: Understanding observables
 
-An observable it's a stream of data that can be subscribed by an observer.
+An observable it's a stream of data that can be subscribed by an observer. In general we don't create customized Observables but we use the ones that already exists of the `rxjs` library
 
 An observer it's subscribed to an observable and handle the errors, data or completions.
 
@@ -591,4 +591,41 @@ Also we can use the built in async pipe to output async data in the template.
 
 ## Section 18: Making http requests
 
-To make http request we have to implement in typescript `httpClient from '@angular/common/http'`. Examples in the section, tu run correctly you need the version of node **14**.
+To make http request we have to implement in typescript `HttpClient from '@angular/common/http'`. Examples in the section, tu run correctly you need the version of node **14**.
+
+```typescript
+http = new HttPClient()
+http.post('https://ng-course-d2ec8-default-rtdb.firebaseio.com/posts.json', postData).subscribe((response)=>{
+            console.log(response); 
+        },(error)=>{
+            // 
+            this.error.next(error);
+        });
+```
+
+we can:
+1. Return the httpClient Observable and manage by the client.
+2. We can send with the error message with a Subject.
+
+### Interceptors
+
+We can add middlewares interceptors to check all of our httpRequests response or requests similar than in node.
+
+Examples
+
+```typescript
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler
+} from '@angular/common/http';
+
+export class AuthInterceptorService implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const modifiedRequest = req.clone({
+      headers: req.headers.append('Auth', 'xyz')
+    });
+    return next.handle(modifiedRequest);
+  }
+}
+```
