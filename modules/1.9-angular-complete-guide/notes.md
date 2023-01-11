@@ -528,6 +528,15 @@ To **Implement a service in other services** we need to add as provider in the `
 
 We can also **Cross - component communication** to pass data easily between components as we have in `account.service.ts` statusUpdated EventEmitter to emit the status when we set an status of `account.component.ts` to `new-account.component.ts` to send an alert.
 
+## Section 11: Changing page with routing
+
+To change routing wee need to implement a configuration route in app.module. We need `Routes` to set up all the paths and what we are going to render, and a `RouterModule` to set the routes as we did in `app.module.ts`.
+
+Then we need to use the `<router-outlet></router-outlet>` in an specific place of our template to render it there.
+
+We have to implement the `<a routerLink="/servers"></a>` to simulate the navigation between pages.
+
+
 ## Section 13: Understanding observables
 
 An observable it's a stream of data that can be subscribed by an observer. In general we don't create customized Observables but we use the ones that already exists of the `rxjs` library
