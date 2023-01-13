@@ -538,7 +538,14 @@ We have to implement the `<a routerLink="/servers"></a>` to simulate the navigat
 
 We can also obtain the parameters of a route using `ActivatedRoute` examples in `app/users/user` and it's not necessary to unsubscribe it because angular handle it.
 
-We can also obtain information about the query params and fragments
+We can also obtain information about the query params and fragments.
+
+We can also redirect from a route to another route.
+
+We can also use guards to prevent the access to some routes without authentication for example or roles.
+
+We can also use guards to deactivate don't allow leave of a certain url.
+
 
 ## Section 13: Understanding observables
 
