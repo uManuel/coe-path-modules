@@ -534,8 +534,11 @@ To change routing wee need to implement a configuration route in app.module. We 
 
 Then we need to use the `<router-outlet></router-outlet>` in an specific place of our template to render it there.
 
-We have to implement the `<a routerLink="/servers"></a>` to simulate the navigation between pages.
+We have to implement the `<a routerLink="/servers"></a>` to simulate the navigation between pages. We can use relative or absolute paths in routerLink directive
 
+We can also obtain the parameters of a route using `ActivatedRoute` examples in `app/users/user` and it's not necessary to unsubscribe it because angular handle it.
+
+We can also obtain information about the query params and fragments
 
 ## Section 13: Understanding observables
 
