@@ -546,6 +546,12 @@ We can also use guards to prevent the access to some routes without authenticati
 
 We can also use guards to deactivate don't allow leave of a certain url.
 
+## Section 12: Course project routing
+
+In this project We've learned how to implement:
+- Routes
+- ChildRoutes
+- Params
 
 ## Section 13: Understanding observables
 
