@@ -578,6 +578,9 @@ We can also **funnel Operators** to observables that has rxjs like in `home.comp
 
 **Subjects** are similar than `@EventEmitter` and you have use it in services or when you want to transfer data cross components, it's a good practice because are optimized and you can use operators like an observable, but if you use `@output()` you have to use `EventEmitters`
 
+## Section 14: Course Project observables
+
+Update EventEmitters by observables and update use subscriptions on the project
 ## Section 17: Pipes
 
 Changes the output of the data like:
