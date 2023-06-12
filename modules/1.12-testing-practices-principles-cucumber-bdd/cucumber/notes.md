@@ -395,3 +395,19 @@ import org.junit.runner.RunWith;
 public class TestRunner {
 }
 ```
+
+## Page object model
+
+The page object model allow us to encapsulate the interactions with web pages into separated classes known as **page objects**
+
+The key concepts
+
+1. Page Object Class: Each web page or component has its own page object class, which encapsulates the elements and actions related to that page. It typically contains methods that represent the interactions a user can perform on the page.
+
+2. Element Locators: Page object classes include element locators, which are used to identify and interact with the web elements on the page. These locators can be based on CSS selectors, XPath expressions, or other strategies for locating elements.
+
+3. Encapsulation: The page object classes encapsulate the details of the underlying web page structure and interactions. They shield the tests from the complexities of the page implementation, allowing them to focus on the test logic.
+
+4. Reusability: By separating the page interactions into reusable page objects, the same page object can be used by multiple tests. If there are any changes to the page structure or functionality, only the corresponding page object needs to be updated.
+
+5. Test Readability and Maintainability: The use of page objects improves the readability of test scripts. Tests can utilize descriptive methods from the page object classes, making the test logic more concise and easier to understand. Additionally, if a change occurs in the application, the updates can be localized to the affected page objects, reducing maintenance efforts.
