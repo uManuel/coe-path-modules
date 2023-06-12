@@ -57,8 +57,132 @@ Are functions that can be executed before or after your tests
 - Before: It executes one before all you steps.
 - After: It executes one after all your steps.
 
+You can create them using a separated step definition like `common_step.file` or inside of other step definitions the flow execution should be
+
+1. The self step definition hook.
+2. The `common_steps.file`
+3. The other steps definitions
+
+## Scenario specific hook
+
+We can add more hooks to specific scenarios using scenario specific hooks. To do that we need to add tags to the feature files and in the step definitions  like in the following example
+
+```GHERKIN
+Feature: User Login
+
+  Scenario: Successful Login
+    Given I am on the login page
+    When I enter valid credentials
+    Then I should be logged in successfully
+
+  @logout
+  Scenario: Successful Logout
+    Given I am logged in
+    When I click on the logout button
+    Then I should be logged out successfully
+
+```
+
+```JAVA
+import io.cucumber.java.Before;
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
+
+public class LoginSteps {
+
+    @Before("@logout")
+    public void beforeLogoutScenario(Scenario scenario) {
+        System.out.println("Before Logout Scenario Hook");
+    }
+
+    @After("@logout")
+    public void afterLogoutScenario(Scenario scenario) {
+        System.out.println("After Logout Scenario Hook");
+    }
+
+    @Given("I am on the login page")
+    public void iAmOnTheLoginPage() {
+        System.out.println("Step: I am on the login page");
+    }
+
+    @Given("I enter valid credentials")
+    public void iEnterValidCredentials() {
+        System.out.println("Step: I enter valid credentials");
+    }
+
+    @When("I click on the logout button")
+    public void iClickOnTheLogoutButton() {
+        System.out.println("Step: I click on the logout button");
+    }
+
+    @Then("I should be logged in successfully")
+    public void iShouldBeLoggedInSuccessfully() {
+        System.out.println("Step: I should be logged in successfully");
+    }
+
+    @Then("I should be logged out successfully")
+    public void iShouldBeLoggedOutSuccessfully() {
+        System.out.println("Step: I should be logged out successfully");
+    }
+}
+
+```
+
+The order of execution the specific hooks are the same as the order by the functions in the step definition.
+
+### Prioritizing hooks
+
+We can prioritize and set a default order by apply a parameter in the decorator of a step definition like
+
+```JAVA
+import io.cucumber.java.Before;
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
+
+public class LoginSteps {
+
+    @Before(value="@logout",order=1)// 0 means first in before
+    public void beforeLogoutScenario(Scenario scenario) {
+        System.out.println("Before Logout Scenario Hook");
+    }
+
+    @After(value="@logout",order=1)// 0 means latest in after
+    public void afterLogoutScenario(Scenario scenario) {
+        System.out.println("After Logout Scenario Hook");
+    }
+
+    @Given("I am on the login page")
+    public void iAmOnTheLoginPage() {
+        System.out.println("Step: I am on the login page");
+    }
+
+    @Given("I enter valid credentials")
+    public void iEnterValidCredentials() {
+        System.out.println("Step: I enter valid credentials");
+    }
+
+    @When("I click on the logout button")
+    public void iClickOnTheLogoutButton() {
+        System.out.println("Step: I click on the logout button");
+    }
+
+    @Then("I should be logged in successfully")
+    public void iShouldBeLoggedInSuccessfully() {
+        System.out.println("Step: I should be logged in successfully");
+    }
+
+    @Then("I should be logged out successfully")
+    public void iShouldBeLoggedOutSuccessfully() {
+        System.out.println("Step: I should be logged out successfully");
+    }
+}
+
+```
+
 ## Parameterize steps in Cucumber
+
 ### Using Scenario outline
+
 1. Write in your feature file a scenario and then define an Scenario Outline keyword like **Given, And or Then**
 
 2. Add a place holder for the parameter you want to pass.like
@@ -109,7 +233,8 @@ public class CalculatorSteps {
 }
 
 ```
-### Using an scenario 
+
+### Using an scenario
 
 ```GHERKIN
 Scenario: Search for a product
@@ -136,7 +261,9 @@ public class SearchSteps {
 ```
 
 ## Parameterize Step Data Table
+
 ### Using Scenario Outline
+
 Using step data table we can parameterize an Scenario Outline Keyword with multiple values, making it easy and DRY.
 
 1. Define a Scenario Outline with a Data Table.
@@ -195,6 +322,7 @@ public class CalculatorSteps {
 }
 
 ```
+
 ### Scenario
 
 ```GHERKIN
@@ -247,3 +375,23 @@ The **Scenario** represents an specific test that describe only one single behav
 ## Data driven testing
 
 Is an approach in software testing where test cases are designed to be executed with different sets of test data.
+
+## Tags
+
+We can execute specific scenarios adding tags to our test runner.
+
+```java
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "com.example.steps",
+    tags = "@smoke or @regression or @performance", // It's going to execute @smoke scenarios or @regression or @performance you can also use and to include more tags to execute them
+    plugin = {"pretty", "html:target/cucumber-reports"}
+)
+public class TestRunner {
+}
+```
