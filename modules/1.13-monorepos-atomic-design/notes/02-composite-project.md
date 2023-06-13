@@ -6,7 +6,7 @@
 
 # Composite Project
 
-TypeScript supports the concept of several sub-projects that _refer_ to eachother's build output. This will make the most frequently-performed tasks much faster (i.e., an incremental build) so it's in our interest to set this up.
+TypeScript supports the concept of several sub-projects that _refer_ to each other's build output. This will make the most frequently-performed tasks much faster (i.e., an incremental build) so it's in our interest to set this up.
 
 ## A second package
 
