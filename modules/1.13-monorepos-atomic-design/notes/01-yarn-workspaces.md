@@ -124,3 +124,8 @@ you should that a [`packages/types/dist`](../packages/types/dist) is created for
 <p align='right'>
  <a href="./02-composite-project.md">Next: Composite Projects ▶</a>
 </p>
+
+
+# Notes
+
+We can add to the root repo in the file `package.json` the attribute `workspaces` so we can add more inner projects inside the root project.
