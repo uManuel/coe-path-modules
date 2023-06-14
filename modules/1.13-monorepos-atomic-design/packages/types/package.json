@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "clean": "rimraf dist *.tsbuildinfo",
     "build": "tsc -b .",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src --ext js,ts"
   },
   "volta": {
     "node": "16.14.2",
