@@ -8,7 +8,8 @@
 - object: the same as javascript but can have more specific types, type of object.
 - Array: Can be flexible or strict(just one type of element)
 - Tuple: Array with a fixed length and types (typescript)
-- Enum: Automatically enumerate global constant identifiers like an object (typescript)
+- Enum: Automatically enumerate global constant identifiers like an object (typescript) and set constant values
+- Unknown: can be any type of data but unknown.
 - Any: can save any kind type.
 
 ## Union types
@@ -31,7 +32,7 @@ function add(n1: number|string, n2: number|string) { // here we can have a numbe
 
 With this feature we are able to specify what kind of literals can have a variable
 ```JAVASCRIPT
-function add(n1: number|string, n2: number|string, resultConversion: 'as-number|as-text') {
+function add(n1: number|string, n2: number|string, resultConversion: 'as-number'|'as-text') {
     let result;
     if (typeof n1==='number' && typeof n2==='number' || resultConversion==='as-number') {
         result = n1+n2;
