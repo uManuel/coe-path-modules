@@ -1,0 +1,44 @@
+{
+  "name": "js-ts-monotrepos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:mike-north/js-ts-monorepos.git",
+  "author": "Mike North <michael.l.north@gmail.com>",
+  "license": "BSD-2-Clause",
+  "private": true,
+  "scripts": {
+    "build": "scripty",
+    "test": "scripty",
+    "lint": "scripty",
+    "clean": "scripty"
+  },
+  "volta": {
+    "node": "16.14.2",
+    "yarn": "1.22.18"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
+    "@commitlint/config-lerna-scopes": "^17.6.3",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "commitlint": "^17.6.5",
+    "eslint": "^8.42.0",
+    "husky": "^8.0.3",
+    "lerna": "^7.0.1",
+    "lerna-changelog": "^2.2.0",
+    "rimraf": "^5.0.1",
+    "scripty": "^2.1.1"
+  },
+  "scripty": {
+    "path": "./scripts/workspace"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
