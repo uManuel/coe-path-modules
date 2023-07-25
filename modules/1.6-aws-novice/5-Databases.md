@@ -15,7 +15,7 @@ There are different types of them
 
 Some advantages
 - Fully managed
-- You don't have to patch the sofware or give support to them.
+- You don't have to patch the software or give support to them.
 - Highly available meaning that they won't go offline if there is an issue in one of data centers.
 
 ### Relational Databases
@@ -40,7 +40,7 @@ Used in high traffic web apps, like e-commerce system, gaming applications
 
 ## Reviewing RDS
 
-Allow us to have relational databses in the cloud
+Allow us to have relational databases in the cloud
 
 Engines
 - Mysql

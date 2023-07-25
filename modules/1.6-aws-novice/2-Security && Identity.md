@@ -70,8 +70,8 @@ If it has the correct role then can access to the Database.
 
 ## Summarizing Secrets Manager
 
-Allow us to protect our secrets enviroment to get access to databases or other services.
-So in orther to do that we can get that enviroment making an http request:
+Allow us to protect our secrets environment to get access to databases or other services.
+So in order to do that we can get that environment making an http request:
 
 ```javascript
 import 'mysql.connector'
